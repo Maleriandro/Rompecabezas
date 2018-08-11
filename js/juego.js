@@ -1,5 +1,8 @@
 // Arreglo que contiene las intrucciones del juego 
-var instrucciones = [];
+var instrucciones = [
+					'Usá las flechas para mover las piezas',
+					'Ordena las piezas para formar la imagen de Pikachu'
+					];
 // Arreglo para ir guardando los movimientos que se vayan realizando
 var movimientos = [];
 
@@ -21,7 +24,10 @@ Cada elemento de este arreglo deberá ser mostrado en la lista con id 'lista-ins
 Para eso deberás usar la función ya implementada mostrarInstruccionEnLista().
 Podés ver su implementación en la ultima parte de este codigo. */
 function mostrarInstrucciones(instrucciones) {
-    //COMPLETAR
+	for (var i = 0; i < 2; i++) {
+	var pasoDeLasInstrucciones = instrucciones[i];
+	mostrarInstruccionEnLista(pasoDeLasInstrucciones, 'lista-instrucciones');
+	}
 }
 
 /* COMPLETAR: Crear función que agregue la última dirección al arreglo de movimientos
