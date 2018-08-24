@@ -21,7 +21,7 @@ li {
 }
 li::before {
     content: '• ';
-    color: rgb(236, 223, 103);
+    color: rgb(226, 151, 34);
 }
 
 .col-40 h1 {
@@ -75,7 +75,6 @@ li::before {
 #juego {
     width: 90vh;
     height: 90vh;
-
 }
 
 div .fichas {
