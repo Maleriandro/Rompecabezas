@@ -1,3 +1,7 @@
+var controlDelUsuario = false;
+var totalSeconds = 0;
+var contador;
+
 // Arreglo que contiene las intrucciones del juego 
 var instrucciones = [
 					'Usá las flechas para mover las piezas',
@@ -25,12 +29,29 @@ Esta posición comienza siendo la [2, 2]*/
 var filaVacia = 2;
 var columnaVacia = 2;
 
+// Contador de tiempo resolviendo Rompecabezas
+function countTimer() {
+   ++totalSeconds;
+
+var minute = Math.floor(totalSeconds / 60);
+var seconds = totalSeconds - (minute * 60);
+
+if (minute < 10) {
+    minute = "0" + minute;
+}
+
+if (seconds < 10) {
+    seconds = "0" + seconds;
+}
+
+document.getElementById("timer").innerHTML = minute + ":" + seconds;
+}
 /* Esta función deberá recorrer el arreglo de instrucciones pasado por parámetro. 
 Cada elemento de este arreglo deberá ser mostrado en la lista con id 'lista-instrucciones'. 
 Para eso deberás usar la función ya implementada mostrarInstruccionEnLista().
 Podés ver su implementación en la ultima parte de este codigo. */
 function mostrarInstrucciones(instrucciones) {
-	for (var i = 0; i < 2; i++) {
+	for (var i = 0; i < instrucciones.length; i++) {
 	var pasoDeLasInstrucciones = instrucciones[i];
 	mostrarInstruccionEnLista(pasoDeLasInstrucciones, 'lista-instrucciones');
 	}
@@ -47,36 +68,25 @@ function guardarUltimoMovimiento(parametroDeDireccion) {
 /* Esta función va a chequear si el Rompecabezas esta en la posicion ganadora. 
 Existen diferentes formas de hacer este chequeo a partir de la grilla. */
 function chequearSiGano() {
-    
-    var jsonGrilla = JSON.stringify(grilla);
+    var gano = true;
 
-    var jsonGrillaGanadora = JSON.stringify(grillaGanadora);
+    for (i = 0; i < grilla.length; i++) {
+        for (j = 0; j < grilla[i].length; j++) {
+            if (grilla[i][j] !== grillaGanadora[i][j]) {
+                gano = false;
+            }
+        }
 
-    if (jsonGrilla === jsonGrillaGanadora) {
-        return true;
-    } else {
-        return false;
     }
 
-///////////////////////////////////////////////////////////////
-    
-    // var gano = true;
-
-    // for (i = 0; i < grilla.length; i++) {
-    //     for (j = 0; j < grilla[i].length; j++) {
-    //         if (grilla[i][j] !== grillaGanadora[i][j]) {
-    //             gano = false;
-    //         }
-    //     }
-
-    // }
-
-    // return gano;
+    return gano;
 }
 
 // Implementar alguna forma de mostrar un cartel que avise que ganaste el juego
 function mostrarCartelGanador() {
     alert("Ganaste");
+    alert('Resolviste el rompecabezas en ' + movimientos.length + ' movimientos.');
+    clearInterval(contador);
 }
 
 /* Función que intercambia dos posiciones en la grilla.
@@ -149,10 +159,11 @@ function moverEnDireccion(direccion) {
     if (posicionValida(nuevaFilaPiezaVacia, nuevaColumnaPiezaVacia)) {
         intercambiarPosiciones(filaVacia, columnaVacia, nuevaFilaPiezaVacia, nuevaColumnaPiezaVacia);
         actualizarPosicionVacia(nuevaFilaPiezaVacia, nuevaColumnaPiezaVacia);
-        guardarUltimoMovimiento(direccion);
+        // guardarUltimoMovimiento(direccion);
   //COMPLETAR: Agregar la dirección del movimiento al arreglo de movimientos
-
-
+        if (controlDelUsuario) {
+            guardarUltimoMovimiento(direccion);
+        }
     }
 }
 
@@ -245,6 +256,8 @@ se mezclará todo el tablero. */
 
 function mezclarPiezas(veces) {
   if (veces <= 0) {
+    controlDelUsuario = true;
+    contador = setInterval(countTimer, 1000);
     return;
   }
   
