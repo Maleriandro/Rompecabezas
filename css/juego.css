@@ -92,3 +92,10 @@ div .fichas img {
 #objetivo img {
     width: 90%;
 }
+
+footer {
+    clear: both;
+    background-color: black;
+    width: 100%;
+    text-align: center;
+}
